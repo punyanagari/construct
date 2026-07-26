@@ -100,4 +100,4 @@ You're ready to move on when you can:
 6. Compare sequential vs. hierarchical runs on cost, latency, and trace clarity, and justify per-role model sizing in dollar terms.
 7. Answer, with evidence: "was delegation actually better than the single-agent baseline?"
 
-If all seven hold, you can decompose problems into non-overlapping, verifiable roles — the design skill every later phase presupposes. Phase 8 moves up one level: the roles you've assigned become actors inside explicit flow and graph state machines, and the reviewer you built here evolves into full guardrails and evaluation.
+If all seven hold, you can decompose problems into non-overlapping, verifiable roles — the design skill every later phase presupposes. Phase 8 (new in roadmap v2) instruments exactly this crew: you'll build the eval harness, judge calibration, and tracing on it before anything multiplies. Then Phase 9 moves up one level: the roles you've assigned become actors inside a full organization, and the reviewer you built here evolves into org-wide guardrails and evaluation.

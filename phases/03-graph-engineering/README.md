@@ -1,4 +1,4 @@
-# Phase 3 — Graph Engineering
+# Phase 3 — Graph Engineering + MCP
 
 ## What It Is & Why It Matters
 
@@ -8,9 +8,11 @@ The mental model is a progression of control-flow shapes. A **chain** (A → B �
 
 For your SaaS ERP, this is where multi-agent routing stops being a sketch: a router classifying a query (inventory vs. invoicing vs. HR) and dispatching to specialist agents *is* a conditional edge; approval before writing to the general ledger *is* a human-in-the-loop interrupt; surviving a server restart mid-workflow *is* checkpointing.
 
+Since roadmap v2 this phase also owns two things Phase 1 used to carry: the **framework survey** (compare LangGraph against the OpenAI Agents SDK, CrewAI, and the Claude Agent SDK — after you've built graphs, not before) and **MCP**, the protocol that standardizes how your agents' tools are served. You'll rebuild the Phase 1 Pocket Research Agent in LangGraph and move one of its tools behind an MCP server as part of this phase's gate.
+
 ## Core Concepts, in Learning Order
 
-Learn these in sequence — each builds on the previous. Budget about a week for steps 1–4 and a week for 5–10; expect 2–4 weeks total to reach fluency in "graph thinking."
+Learn these in sequence — each builds on the previous. Budget about a week for steps 1–4, a week for 5–10, and the remaining time for the framework survey and MCP (11–12); the phase has four weeks (6–9) for a reason.
 
 1. **Primitives, state, and reducers.** Define a typed state schema (TypedDict or Pydantic), write node functions that read state and return *partial updates*, wire plain edges between `START` and `END`, and `compile()`. Then master **reducers** — the functions that merge node outputs back into state (`add_messages`, `operator.add`, custom reducers, message trimming). Most beginner bugs live here; don't move on until merging is second nature.
 2. **Conditional edges.** Routing functions that inspect state and return the next node's name — the mechanism behind branching, tool-call decisions, and loop termination, and the thing that turns a static DAG into a controllable agent architecture. Always implement a max-iteration or terminal condition; runaway loops are a real failure mode.
@@ -22,6 +24,8 @@ Learn these in sequence — each builds on the previous. Budget about a week for
 8. **Subgraphs.** Mount a compiled graph as a node inside a parent graph — encapsulation for agent "logical units," with shared or separate state schemas. This is the foundation for the supervisor/hierarchical/swarm topologies you'll build in Phase 6.
 9. **Visual design in LangGraph Studio.** Sketch the graph as a flowchart *before* coding, then use `langgraph dev` and LangGraph Studio — the agent IDE — to visualize it, run interactively, inspect state per node, edit state mid-run, and debug. Know the trade-off vs. no-code builders (n8n, Langflow, LangSmith Agent Builder): you trade convenience for owning your control flow.
 10. **Production design.** Choose chain vs. loop vs. graph per problem complexity; cap recursion; write idempotent nodes; handle errors deliberately; use Postgres-backed checkpointing for concurrency; treat full state history as your audit trail.
+11. **Framework survey — compare, don't marry** *(moved from Phase 1 in roadmap v2)*. With graphs under your fingers, skim the alternatives: OpenAI Agents SDK (minimal primitives: Agents, Runner, handoffs, guardrails), CrewAI (role-based agents and tasks — you'll build with it in Phase 7), Claude Agent SDK (Claude Code's capabilities programmatically, with MCP support). One caution: Microsoft's AutoGen is in maintenance mode and migrating to the Microsoft Agent Framework — learn its conversation-first concepts if you're curious, but don't build new projects on it.
+12. **MCP (Model Context Protocol)** *(moved from Phase 1 in roadmap v2)*. The "USB-C port for AI": hosts/clients/servers architecture, JSON-RPC over stdio and HTTP transports, and the three primitives (tools, resources, prompts). You'll build one small server in this phase's gate and consume it from both Claude and your own graph.
 
 ## Study Resources
 
@@ -36,7 +40,7 @@ Learn these in sequence — each builds on the previous. Budget about a week for
 | LangGraph Studio official demo (LangChain channel) | https://www.youtube.com/watch?v=pLPJoFvq4_M | Short official tour: visualize the graph, run interactively, edit state mid-run, debug |
 | Tech With Tim — "How to Build an Advanced AI Agent with Search (LangGraph Tutorial)" | https://www.youtube.com/watch?v=cUC-hyjpNxk | Production-style capstone: multi-step graph with live search, query routing, filtering, dedup, credibility checks |
 
-Also worth your time (direct URLs unverified): search YouTube for **"Tutorial 1: Getting Started With LangGraph — Building Stateful Multi AI Agents"** by Krish Naik, and **"How to Build a Stock Screener AGENT with LangGraph in 30 Minutes"** by Nicholas Renotte (code: https://github.com/nicknochnack/LanggraphCrashCourse).
+Also worth your time (direct URLs unverified): search YouTube for **"Tutorial 1: Getting Started With LangGraph — Building Stateful Multi AI Agents"** by Krish Naik, and **"How to Build a Stock Screener AGENT with LangGraph in 30 Minutes"** by Nicholas Renotte (code: https://github.com/nicknochnack/LanggraphCrashCourse). For the MCP half of the phase: **"Agentic AI with LangGraph and MCP Crash Course – Part 1"** by Krish Naik (LangGraph building blocks → ReAct agent → building an MCP server from scratch) and **"The Ultimate MCP Crash Course – Build From Scratch"** by Web Dev Simplified (server *and* client from scratch — the clearest view of what the protocol does on the wire).
 
 **X (Twitter) — follow these five accounts.**
 
@@ -61,10 +65,21 @@ Also worth your time (direct URLs unverified): search YouTube for **"Tutorial 1:
 | LangChain blog — "LangGraph Studio: The first agent IDE" | https://www.langchain.com/blog/langgraph-studio-the-first-agent-ide | Pairs with the Studio demo video — concept 9 |
 | IBM Think — "What is LangGraph?" | https://www.ibm.com/think/topics/langgraph | Clean conceptual explainer for "graph thinking" |
 | 12-Factor Agents — HumanLayer | https://github.com/humanlayer/12-factor-agents | Cross-reference from Phase 2: factors 8 and 11 (own your control flow; async HITL) are the philosophy behind this phase |
+| MCP introduction & reference servers | https://modelcontextprotocol.io/introduction · https://github.com/modelcontextprotocol/servers | Official spec, SDKs, and a collection of reference servers to learn from — concept 12 |
+| Anthropic — "Introducing the Model Context Protocol" | https://www.anthropic.com/news/model-context-protocol | The original announcement — explains the "why" behind MCP's design |
+| DeployHQ — "Build Your First MCP Server" | https://www.deployhq.com/blog/build-your-first-mcp-server-model-context-protocol-guide | Practical Python walkthrough connecting a custom server to Claude Desktop and Claude Code — follow it for build-gate part (c) |
+| OpenAI Agents SDK | https://developers.openai.com/api/docs/guides/agents · https://github.com/openai/openai-agents-python | Framework survey (concept 11): minimal primitives to compare against LangGraph |
+| CrewAI docs & repo | https://docs.crewai.com/ · https://github.com/crewAIInc/crewAI | Framework survey: role-based agents and tasks — skim now, build with it in Phase 7 |
+| Claude Agent SDK | https://code.claude.com/docs/en/agent-sdk/overview · https://github.com/anthropics/claude-agent-sdk-typescript | Framework survey: Claude Code's capabilities programmatically, with MCP support |
+| AutoGen repo + migration guide | https://github.com/microsoft/autogen · https://learn.microsoft.com/en-us/agent-framework/migration-guide/from-autogen/ | Framework survey, read for concepts only — maintenance mode, migrating to Microsoft Agent Framework |
 
-## Hands-On Build Gate: Support-Triage Agent with Approval Gate
+## Hands-On Build Gate (three parts)
 
-You advance to Phase 4 only when this works. Build a **customer-support email triage agent** in Python with LangGraph v1.x that exercises every core concept in one small graph — a direct rehearsal for your ERP ticket routing.
+You advance to Phase 4 only when all three parts work.
+
+**(a) Rebuild the Phase 1 agent in LangGraph** *(moved from P1's gate in roadmap v2)*. Recreate the Pocket Research Agent as a StateGraph (agent node + tool node + conditional edge), add a checkpointer so conversation memory survives across runs, and add one human-in-the-loop interrupt requiring your approval before any `write_notes` call. Turn on LangSmith tracing and inspect the run step by step — this is where you feel exactly what the framework adds to your raw loop.
+
+**(b) The Support-Triage Agent.** Build a **customer-support email triage agent** in Python with LangGraph v1.x that exercises every core concept in one small graph — a direct rehearsal for your ERP ticket routing.
 
 - **State:** a TypedDict with `messages` (with the `add_messages` reducer), `email_text`, `category`, `draft_reply`, `retries`, `approved`.
 - **Nodes:** (1) `classify` — an LLM categorizes the email (refund / technical / other) and a **conditional edge** routes to the right handler; (2) `draft_reply` — drafts a response; (3) `quality_check` — scores the draft and **loops back** to `draft_reply` while score < threshold and `retries < 2` (your cycle, with a hard termination cap); (4) `human_approval` — `interrupt()` the graph to show the draft, letting a human approve, reject-with-feedback (routing back to `draft_reply`), or edit it via `update_state`; (5) `send` (mocked) — reachable only after approval.
@@ -74,6 +89,8 @@ You advance to Phase 4 only when this works. Build a **customer-support email tr
 - **Visualization:** run `langgraph dev`, open LangGraph Studio, screenshot the graph, and pause interactively at the approval node.
 - **Stretch:** stream in `updates` mode to print each node as it fires.
 
+**(c) Move `web_search` behind an MCP server** *(moved from P1's gate in roadmap v2)*. Extract the research agent's `web_search` tool into a standalone MCP server (Python or TypeScript SDK), register it in Claude Desktop or Claude Code, and verify Claude can call it. Then connect the same server to your LangGraph agent. You now understand the whole stack: loop → framework → protocol.
+
 **Deliverable:** a repo whose README contains the graph diagram (Mermaid or Studio screenshot) and a short note on which steps were deterministic vs. agentic, and why. When you get stuck on interrupts, reference LangChain Academy Module 3, the HITL docs page, and the Towards AI HITL guide (https://pub.towardsai.net/langgraph-human-in-the-loop-pausing-reviewing-and-rewinding-your-agent-4028bd05b049).
 
 ## Common Pitfalls
@@ -82,4 +99,4 @@ You advance to Phase 4 only when this works. Build a **customer-support email tr
 
 ## Checkpoint for Phase 4
 
-Before moving on to context engineering, confirm you can: define a typed state schema with correct reducers; route with conditional edges plus a guaranteed termination condition; build a retry cycle that cannot run away; checkpoint with `SqliteSaver` and resume after a killed process; pause with `interrupt()`, edit state, and resume; fork from a past checkpoint; extract a subgraph and mount it in a parent graph; and visualize everything in LangGraph Studio. With every box ticked and your triage agent repo complete, you hold exactly the primitives — subgraphs, routing, shared state — that the supervisor and hierarchical multi-agent topologies of Phase 6 are built from. When you get there, multi-agent routing will feel like composition, not magic.
+Before moving on to context engineering, confirm you can: define a typed state schema with correct reducers; route with conditional edges plus a guaranteed termination condition; build a retry cycle that cannot run away; checkpoint with `SqliteSaver` and resume after a killed process; pause with `interrupt()`, edit state, and resume; fork from a past checkpoint; extract a subgraph and mount it in a parent graph; visualize everything in LangGraph Studio; and stand up a minimal MCP server, register it in Claude Desktop/Code, and consume it from your own agent. With every box ticked and your triage agent repo complete, you hold exactly the primitives — subgraphs, routing, shared state — that the supervisor and hierarchical multi-agent topologies of Phase 6 are built from. When you get there, multi-agent routing will feel like composition, not magic.

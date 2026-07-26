@@ -1,4 +1,4 @@
-# Phase 8 — Building Your AI Organization (Capstone)
+# Phase 9 — Building Your AI Organization (Capstone)
 
 ## What it is — and why it comes last
 
