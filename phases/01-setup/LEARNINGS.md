@@ -16,7 +16,10 @@
 
 ## Lessons (as taught)
 
-- **L1 (2026-07-26)** — Workflow vs agent; the anatomy of the raw loop; environment setup and the first controlled API call (steps 1–3 issued in session; decision point: model choice).
+- **L1 (2026-07-26)** — Workflow vs agent; the anatomy of the raw loop; environment setup and the first controlled API call. Owner gotchas hit and understood: cmd-vs-PowerShell env-var syntax, `.\` command precedence, venv activation = PATH manipulation. Token cost math done on real output (out-tokens cost 5× in-tokens; stateless API → history resend → quadratic growth preview).
+- **L2 (2026-07-26)** — Tool calling: declare (name/description/schema) → model *requests* via `tool_use` block → nothing executes until owner's code acts. Observed live: `stop_reason` as the branch condition, nondeterministic content lists (text block present in one run, absent in the next), per-call `toolu_` ids. Contrast run: geography question → `end_turn`, no tool call — tool choice is authored in the description's English. Warm-up quiz passed: LOA extraction = LLM fills the slot, code decides (workflow).
+- **L3 (2026-07-26)** — The return leg: echo full assistant `content`, send `tool_result` tagged with the id in a *user* message, same tools list, model phrases a number it never computed. Security thread opened: model output is untrusted input (allowlist-guarded eval); errors returned as observations, never raised.
+- **L4 (2026-07-27)** — The loop: step 3 with two assumptions removed. `for` with MAX_ITERATIONS as structure, `stop_reason` exit at top, dispatch dict, all tool results in one user message (API rule). Multi-step ERP-flavored task (revised order value → GST on it) to witness result-feeds-next-decision. Owner runs it; gate assignment (system prompt + web_search + notes tools, owner-written) is next.
 
 ## Decisions (who chose what, why)
 
