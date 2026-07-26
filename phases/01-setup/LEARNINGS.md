@@ -1,6 +1,6 @@
 # Phase 1 — LEARNINGS
 
-> Written by Claude before the phase starts, per protocol v2. Owner: run the gate, break it once (log below), and challenge one design decision in issue #3.
+> Lesson log for Phase 1, per protocol v3 (hybrid tutor mode): Claude teaches with explanations and step-by-step actions/decisions; the owner types, runs, decides at decision points, and answers the checkpoint quiz. Lessons are appended below as they are taught.
 
 ## TL;DR (≤10 bullets)
 
@@ -14,7 +14,15 @@
 - Golden rule, memorize verbatim: **a well-prompted single call beats a workflow, a workflow beats an agent, one agent with good tools usually beats a crew.**
 - For the ERP: the query-routing layer is a *workflow* (routing pattern); the specialists behind it are *agents*. Being able to say why is a pass criterion.
 
-## Design decisions
+## Lessons (as taught)
+
+- **L1 (2026-07-26)** — Workflow vs agent; the anatomy of the raw loop; environment setup and the first controlled API call (steps 1–3 issued in session; decision point: model choice).
+
+## Decisions (who chose what, why)
+
+*(Logged as decision points are settled during the build.)*
+
+## Gate design decisions (D1–D6)
 
 **D1 — No framework in Phase 1, at all.**
 *Decision:* the gate is ~100 lines of raw Python; LangGraph and MCP wait for Phase 3.
@@ -58,6 +66,6 @@
 
 *(Run the gate, then break it once on purpose — kill the network mid-run, feed it a poisoned search result, drop the iteration cap to 3 — and record here what happened and what you learned.)*
 
-## Challenge & resolution
+## Checkpoint quiz (owner's answers)
 
-*(Pick one D above and attack it in issue #3. Either this doc changes, or the defense gets written here.)*
+*(At phase end, Claude asks the P1 pass-criteria questions — rewrite the loop from memory, explain workflow-vs-agent, name an ERP task that stays a workflow. The owner's answers, in their own words, get recorded here.)*

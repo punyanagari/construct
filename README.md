@@ -8,10 +8,10 @@ This repo documents a structured journey through AI agent engineering — setup,
 
 - **[ROADMAP.md](ROADMAP.md)** — the single source of truth: sequence rationale, per-phase missions, build gates + pass criteria, curated resources, and the 24-week timeline.
 - **[PROGRESS.md](PROGRESS.md)** — the state file. Current phase, what's done, what's next. Any AI session starts by reading this.
-- **`phases/`** — one folder per phase: the full study guide, the owner's build-gate code, and `LEARNINGS.md` (Claude's distilled notes + design decisions, the owner's break log, and the challenge resolution).
-- **GitHub Issues** — one issue per phase = the task board. Challenges, decisions, and review happen there.
+- **`phases/`** — one folder per phase: the full study guide, the owner's build-gate code, and `LEARNINGS.md` (the lesson log: what was taught, decisions made and by whom, the owner's break log, and the checkpoint quiz).
+- **GitHub Issues** — one issue per phase = the task board. Questions, decisions, and review happen there.
 
-**Protocol (v2 — owner in the loop):** Claude writes each phase's `LEARNINGS.md` before the phase starts; the owner runs the build gate, breaks it once on purpose, and challenges one design decision in the phase issue. A phase is done when the gate passes its criteria *and* the challenge is resolved.
+**Protocol (v3 — hybrid tutor mode):** Claude learns each phase and teaches it — plain-language lessons plus a step-by-step guided build (action → why → what you should see), with explicit decision points where Claude presents the tradeoffs and the owner decides. The owner types, runs, and commits; Claude never ships a finished gate solution. A phase is done when the gate passes its criteria *and* the owner passes the checkpoint quiz in their own words.
 
 ## The 9 phases
 
@@ -31,6 +31,6 @@ This repo documents a structured journey through AI agent engineering — setup,
 
 1. **Workflow first, agents only when necessary** — restraint is a core skill.
 2. **Build from scratch before reaching for a framework.**
-3. **A phase is done when its build gate passes its criteria and the issue challenge is resolved** — not when the material is read.
+3. **A phase is done when its build gate passes its criteria and the owner passes the checkpoint quiz** — not when the material is read.
 4. **Security lines in P6–P9 gates are pass criteria**, not suggestions.
 5. Every learning, decision, and improvement gets committed — the repo is the memory.
