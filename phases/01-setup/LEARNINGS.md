@@ -20,7 +20,7 @@
 
 ## Decisions (who chose what, why)
 
-*(Logged as decision points are settled during the build.)*
+- **DP1 — Phase 1 model: `claude-opus-5`** *(owner, 2026-07-26)*. Claude recommended `claude-opus-4-8` from a stale June model catalog; the owner surfaced the Jul 24, 2026 Opus 5 release. Verified against live docs: $5/$25 per MTok (identical to 4.8), 1M context, 128K max output, adaptive thinking, same clean API surface — strictly better at equal price. Meta-lesson: model catalogs go stale in weeks; verify against live docs (or the Models API) before deciding, and don't let your tutor's cache outrank a primary source.
 
 ## Gate design decisions (D1–D6)
 
