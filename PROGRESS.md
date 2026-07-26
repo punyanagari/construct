@@ -34,6 +34,7 @@
 | 2026-07-26 | Repo scaffolded: roadmap, 8 phase guides, issue board (8 phase issues); mode set to full delegation | initial scaffold |
 | 2026-07-26 | Roadmap v2 final: cloned + diffed repo vs generated files; kept repo's corrected ordering, Mermaid ladder, orientation & X/channel tables; added 9-phase structure (Evals P8, capstone → P9), slimmed P1, security thread, protocol v2, per-phase gates, canonical-link fix; README synced | v2 roadmap + progress + readme |
 | 2026-07-26 | v2 migration finished (Claude Code): capstone folder → 09, Phase 8 guide + issue #9 opened, P1 guide slimmed to raw Python, P3 guide absorbed LangGraph rebuild + MCP + framework survey, stale Phase-8/9 cross-refs swept, issue #4 retitled to Phase 9 | v2 judgment edits |
+| 2026-07-26 | Phase 1 kickoff per protocol v2: `phases/01-setup/LEARNINGS.md` delivered (design decisions D1–D6 with falsifiers, gotchas, empty break-log/challenge sections). Ball is with the owner: run the gate, break it once, challenge a D in issue #3 | P1 LEARNINGS.md |
 
 ## How to resume (for any AI session)
 
