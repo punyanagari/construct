@@ -30,22 +30,22 @@ graph LR
 
 The **loop** comes first because it is the atomic unit: every later structure — supervisor topologies, deep-research agents, org-chart hierarchies — is a composition of loops, and a framework debugged without that mental model is debugged blind. **Graphs** follow because a graph is the loop made explicit, persistent, and inspectable — the value of "a state machine you can checkpoint and rewind" only clicks after you've felt an implicit loop fail. **Context engineering** and **token optimization** travel as a pair — every token technique is a context-window manipulation (caching keeps the prefix stable, compaction decides what to evict) — and both must be solid before agents multiply, because multi-agent architecture is, at heart, a context-isolation strategy. **Routing** is the gateway to multi-agent — supervisor, handoff, and swarm are routing decisions repeated over time — and it's where quality, latency, and the ERP's unit economics meet. **Roles** teach decomposition into non-overlapping, verifiable jobs. **Evals** land immediately before the capstone because an organization multiplies every unmeasured weakness — the harness must exist before the agents multiply. The **AI Organization** comes last: fix the layers bottom-up, then multiply.
 
-## Protocol (v3 — hybrid tutor mode)
+## Protocol (v4 — concept tutor mode)
 
-Claude learns each phase first, then teaches it. The owner's hands stay on the keyboard; Claude never ships a finished gate solution.
+The owner learns concepts from examples; Claude is the hands. The owner is trained as the **architect and auditor** of AI systems — specifying, reading traces, and making design calls — and is never asked to write code. Claude builds and runs everything.
 
 Per phase:
 
 - **Kickoff:** Claude studies the phase guide + resources and opens `phases/XX/LEARNINGS.md` — the lesson log. Concepts are taught in learning order, explained plainly, each tied to the ERP end goal.
-- **Guided build:** the gate is built together in working sessions, one step at a time. Every step = **the action → why this action → what you should see → what it teaches**. Decision points are explicit: Claude lays out the options and tradeoffs and recommends one; the owner decides, and the choice is logged.
-- **Owner executes:** the owner types, runs, and commits the gate code; Claude reviews the diffs and output and answers every "why" until it lands.
-- **Break-it exercise:** once the gate passes, Claude proposes one deliberate break; the owner runs it and logs what happened.
-- **Phase is done** when the gate passes its criteria **and** the owner answers the phase checkpoint quiz in their own words — Claude asks the questions; the owner's answers, not Claude's, are the evidence.
+- **Every lesson = concept → worked example → your call.** The concept explained in plain language; then a worked example (an annotated trace, a real demo run, an Auto-MB scenario, a case study); then a closing **prediction or decision question** the owner answers before the next lesson. Never a coding task.
+- **Demos:** Claude writes and commits each phase's reference artifact under `phases/XX/demo/` — heavily annotated, written to be *read*, not reproduced. The owner runs at most a single command to see it behave, then studies the trace with Claude. The artifact ladder survives: later phases still operate on earlier phases' demos.
+- **Decision points** remain: options + tradeoffs + recommendation from Claude; the owner decides; the choice is logged.
+- **Understanding gates** replace build gates. A phase is done when the owner, in their own words: **(1) passes the checkpoint quiz** (explain the concepts cold), **(2) makes the phase's design call** — a realistic Auto-MB scenario decided and defended, and **(3) diagnoses a seeded failure from a trace** (Claude breaks the demo; the owner reads the transcript and says what went wrong and why).
 
-`LEARNINGS.md` skeleton (v3):
-`## TL;DR (≤10 bullets)` · `## Lessons (L1, L2, … — as taught)` · `## Decisions (who chose what, why)` · `## Gotchas` · `## Break log (owner)` · `## Checkpoint quiz (owner's answers)`
+`LEARNINGS.md` skeleton (v4):
+`## TL;DR (≤10 bullets)` · `## Lessons (L1, L2, … — as taught)` · `## Decisions (who chose what, why)` · `## Gotchas` · `## Diagnoses (owner's trace readings)` · `## Checkpoint quiz (owner's answers)`
 
-**Rules:** a gate is "working" when you can run it end-to-end, explain every part, and break + recover it. The golden rule at every gate: **a well-prompted single call beats a workflow, a workflow beats an agent, one agent with good tools usually beats a crew** — complexity must earn its place. And the schedule is adjustable, the gates are not: if a phase takes an extra week because your build has a bug you can't yet explain, that week is the curriculum working as intended.
+**Rules:** a concept is "learned" when you can explain it cold, predict what a trace will do before it runs, and make the design call it implies. The golden rule at every gate is unchanged: **a well-prompted single call beats a workflow, a workflow beats an agent, one agent with good tools usually beats a crew** — complexity must earn its place. The schedule is self-paced (the 24-week map reads as a sequence, not a calendar); the understanding gates are not skippable — a phase closes on demonstrated understanding, not on material covered.
 
 ## Prerequisites
 

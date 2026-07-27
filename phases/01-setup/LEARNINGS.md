@@ -1,6 +1,6 @@
 # Phase 1 — LEARNINGS
 
-> Lesson log for Phase 1, per protocol v3 (hybrid tutor mode): Claude teaches with explanations and step-by-step actions/decisions; the owner types, runs, decides at decision points, and answers the checkpoint quiz. Lessons are appended below as they are taught.
+> Lesson log for Phase 1. Started under protocol v3 (owner built hands-on through L4); continues under **protocol v4 (concept tutor mode)**: the owner learns from examples, reads traces, and makes design calls — never writes code. Claude builds and runs the demos. The phase closes on the understanding gate: checkpoint quiz + defended design call + seeded-failure trace diagnosis.
 
 ## TL;DR (≤10 bullets)
 
@@ -23,6 +23,7 @@
 
 ## Decisions (who chose what, why)
 
+- **DP2 — Protocol v4: concept tutor mode** *(owner, 2026-07-27)*. Owner re-evaluated the course: no learning via coding tasks ("coding is getting obsolete"); concepts from examples instead. Claude's position, logged for the record: writing boilerplate is indeed being automated, but specifying, trace-reading, and design calls are not — v4 therefore trains the owner as architect/auditor while Claude writes all code. Supersedes the v3 L5 build assignment; the P1 gate artifact becomes a Claude-written annotated demo (`demo/`), and the owner's deliverables become the understanding gate. Owner's hands-on work through L4 (a working calculator agent loop, built and debugged personally) stands as completed groundwork — and is the reason the trace-reading that follows will make sense.
 - **DP1 — Phase 1 model: `claude-opus-5`** *(owner, 2026-07-26)*. Claude recommended `claude-opus-4-8` from a stale June model catalog; the owner surfaced the Jul 24, 2026 Opus 5 release. Verified against live docs: $5/$25 per MTok (identical to 4.8), 1M context, 128K max output, adaptive thinking, same clean API surface — strictly better at equal price. Meta-lesson: model catalogs go stale in weeks; verify against live docs (or the Models API) before deciding, and don't let your tutor's cache outrank a primary source.
 
 ## Gate design decisions (D1–D6)
@@ -65,9 +66,9 @@
 - Windows note: keep the notes file path relative and open with `encoding="utf-8"` — the default codepage will bite you on the first em-dash the model writes.
 - Return tool errors to the model as observations ("search failed: timeout") instead of raising. You'll formalize this in P2, but you'll want it the first time the search API hiccups.
 
-## Break log (owner)
+## Diagnoses (owner's trace readings)
 
-*(Run the gate, then break it once on purpose — kill the network mid-run, feed it a poisoned search result, drop the iteration cap to 3 — and record here what happened and what you learned.)*
+*(v4 gate part 3: Claude runs the demo with a seeded failure — a broken tool, a poisoned search result, a too-low iteration cap — and the owner reads the trace and diagnoses what went wrong and why. Diagnoses in the owner's words get recorded here.)*
 
 ## Checkpoint quiz (owner's answers)
 
