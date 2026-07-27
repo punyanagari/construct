@@ -65,10 +65,13 @@
 - If the model replies with prose *about* calling a tool instead of an actual tool call, your schema descriptions are vague or your system prompt buries the instruction. Fix the tool description first.
 - Windows note: keep the notes file path relative and open with `encoding="utf-8"` — the default codepage will bite you on the first em-dash the model writes.
 - Return tool errors to the model as observations ("search failed: timeout") instead of raising. You'll formalize this in P2, but you'll want it the first time the search API hiccups.
+- On thinking models (Opus 5+), reasoning tokens spend from the same `max_tokens` budget as the answer. A budget that was generous for a non-thinking model silently starves the final synthesis — see DX1.
+- Always print `stop_reason` at loop exit. `end_turn`, `max_tokens`, and `tool_use` are different worlds; a trace that hides which one occurred can't be audited.
+- Watch where pip actually installs: the demo's `ddgs` went to the global user site-packages (venv wasn't active in that window). It worked by luck — both packages happened to exist globally. Activation is per-terminal-window, and `pip` follows whichever `python` is on PATH.
 
 ## Diagnoses (owner's trace readings)
 
-*(v4 gate part 3: Claude runs the demo with a seeded failure — a broken tool, a poisoned search result, a too-low iteration cap — and the owner reads the trace and diagnoses what went wrong and why. Diagnoses in the owner's words get recorded here.)*
+- **DX1 (2026-07-27) — the vanished answer.** First demo run of `pocket_research_agent.py`: 11 web searches across 6 iterations, then the run "finished" with **no ANSWER printed and no `write_notes` call**, despite the system prompt requiring a save. Owner's diagnosis (unprompted, from two clues — `max_tokens=2000` and Opus 5's default thinking): *"max token value exceeded — it's the root cause."* **Confirmed.** Full chain: thinking spends from the same `max_tokens` budget → final synthesis call burned the whole 2000 on thinking → `stop_reason: "max_tokens"` → the loop's exit branch treated any non-`tool_use` stop as success → no text, no notes. Not a seeded failure — a real bug in Claude's demo. Fixes: budget 2000→16000; exit now prints `stop_reason` and warns on cutoff. Lessons banked: (1) "didn't ask for a tool" ≠ "succeeded" — every harness has this assumption somewhere; (2) a trace that doesn't record the exit reason forces guessing — observability is part of the loop, not a luxury.
 
 ## Checkpoint quiz (owner's answers)
 

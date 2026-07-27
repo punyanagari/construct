@@ -127,16 +127,24 @@ def run_agent(question: str) -> None:
     messages = [{"role": "user", "content": question}]
 
     for iteration in range(1, MAX_ITERATIONS + 1):
+        # max_tokens=16000: on a thinking model, reasoning and answer spend from
+        # the SAME budget. 2000 was the demo's first real bug — the final answer's
+        # thinking consumed it all, and the run "finished" with no answer and no
+        # notes. Diagnosed by the owner from the trace, 2026-07-27.
         response = client.messages.create(
-            model=MODEL, max_tokens=2000, system=SYSTEM,
+            model=MODEL, max_tokens=16000, system=SYSTEM,
             tools=TOOLS, messages=messages,
         )
 
         if response.stop_reason != "tool_use":              # done — exit
+            if response.stop_reason == "max_tokens":
+                # "didn't ask for a tool" is NOT the same as "succeeded":
+                print("\nWARNING: cut off by max_tokens — answer is incomplete.")
             for block in response.content:
                 if block.type == "text":
                     print(f"\nANSWER:\n{block.text}")
-            print(f"\n(finished in {iteration - 1} tool iterations; "
+            print(f"\n(stop_reason={response.stop_reason}; "
+                  f"{iteration - 1} tool iterations; "
                   f"final call used {response.usage.input_tokens} input tokens)")
             return
 
